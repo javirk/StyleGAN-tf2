@@ -9,7 +9,7 @@ import os
 
 class StyleGAN:
     def __init__(self, input_dim, mapping_size, noise_shape, latent_dim, output_dim, output_shape, LR=0.0002,
-                 checkpoint_dir='', log_interval=2, save_interval=50):
+                 checkpoint_dir='checkpoints/', log_interval=2, save_interval=50):
         self.lr = LR
         self.latent_dim = latent_dim
         self.input_dim = input_dim

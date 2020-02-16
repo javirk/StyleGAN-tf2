@@ -1,5 +1,4 @@
 from utils.model import StyleGAN
-from utils.nns import generator_network, discriminator_network
 import numpy as np
 
 MAPPING_SIZE = 8
