@@ -19,7 +19,7 @@ class StyleGAN:
         self.log_interval = log_interval
         self.save_interval = save_interval
 
-        self.generator = generator_network(input_dim, mapping_size, noise_shape, output_dim)
+        self.generator = generator_network(self.latent_dim, self.mapping_size, self.noise_shape, self.output_dim)
         self.discriminator = discriminator_network(output_shape)
 
         self.generator_optimizer, self.discriminator_optimizer = self.compiler()
