@@ -83,7 +83,7 @@ class StyleGAN:
                 # self.checkpoint.save(file_prefix=self.checkpoint_prefix)
                 self.manager.save()
                 print('Checkpoint saved.')
-                self.generate_images_tb(3, epoch + 1)
+                self.generate_images_tb(3, epoch + 1, channels=3)
                 # self.generate_images(10, epoch + 1)
                 print('Images saved.')
 
@@ -124,7 +124,7 @@ class StyleGAN:
 
         return checkpoint, checkpoint_prefix, manager
 
-    def generate_images_tb(self, n_images_to_present, epoch):
+    def generate_images_tb(self, n_images_to_present, epoch, channels=1):
         latent_shape = (n_images_to_present, self.latent_dim)
         noise_shape = (n_images_to_present, self.noise_shape[0], self.noise_shape[1], self.noise_shape[2])
 
@@ -133,11 +133,15 @@ class StyleGAN:
 
         x = self.generator([latent, noise])
 
-        t1 = np.reshape(x[..., 0] + 1 / 2, (-1, x.shape[1], x.shape[2], 1))
-        flair = np.reshape(x[..., 1] + 1 / 2, (-1, x.shape[1], x.shape[2], 1))
-        mask = np.reshape(x[..., 2] + 1 / 2, (-1, x.shape[1], x.shape[2], 1))
+        if channels == 1:
+            t1 = np.reshape(x[..., 0] + 1 / 2, (-1, x.shape[1], x.shape[2], 1))
+            flair = np.reshape(x[..., 1] + 1 / 2, (-1, x.shape[1], x.shape[2], 1))
+            mask = np.reshape(x[..., 2] + 1 / 2, (-1, x.shape[1], x.shape[2], 1))
 
-        with self.train_summary_writer.as_default():
-            tf.summary.image('FLAIR', flair, max_outputs=n_images_to_present, step=epoch)
-            tf.summary.image('T1', t1, max_outputs=n_images_to_present, step=epoch)
-            tf.summary.image('Mask', mask, max_outputs=n_images_to_present, step=epoch)
+            with self.train_summary_writer.as_default():
+                tf.summary.image('FLAIR', flair, max_outputs=n_images_to_present, step=epoch)
+                tf.summary.image('T1', t1, max_outputs=n_images_to_present, step=epoch)
+                tf.summary.image('Mask', mask, max_outputs=n_images_to_present, step=epoch)
+        else:
+            with self.train_summary_writer.as_default():
+                tf.summary.image('Output', x, max_outputs=n_images_to_present, step=epoch)
