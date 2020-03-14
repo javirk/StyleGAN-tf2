@@ -83,7 +83,7 @@ class StyleGAN:
             if (epoch + 1) % self.save_interval == 0:
                 # self.checkpoint.save(file_prefix=self.checkpoint_prefix)
                 self.manager.save()
-                print('Checkpoint saved.')
+                print(f'Checkpoint saved. Epoch {epoch}')
                 self.generate_images_tb(3, epoch + 1, channels=3)
                 # self.generate_images(10, epoch + 1)
                 print('Images saved.')
