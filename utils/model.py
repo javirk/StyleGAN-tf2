@@ -52,11 +52,11 @@ class StyleGAN:
         gradient_norm = K.sum(gradients_sqr, axis=np.arange(1, len(gradients_sqr.shape)))
         return K.mean(gradient_norm)
 
-    def train(self, images, batch_size, epochs=1000, verbose=False):
+    def train(self, images, batch_size, epochs=1000, initial_epoch=0, verbose=False):
         latent_shape = (batch_size, self.latent_dim)
         noise_shape_batch = (batch_size, self.noise_shape[0], self.noise_shape[1], self.noise_shape[2])
 
-        for epoch in range(epochs):
+        for epoch in range(initial_epoch, epochs + initial_epoch):
             start = time()
             np.random.shuffle(images)
 

@@ -67,6 +67,7 @@ def generator_network(input_dim, mapping_size, noise_shape, out_dim):
     latent_input = Input([input_dim])
     # Mapping network
     latent = Dense(input_dim)(latent_input)
+    latent = LeakyReLU(0.2)(latent)
     for layer in range(mapping_size - 1):
         latent = Dense(input_dim)(latent)
         latent = LeakyReLU(0.2)(latent)
